@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { CSSProperties, useEffect, useReducer, useRef, useState } from "react";
 import { ISegment } from "@/models/segment";
+import { Fab, styled } from "@mui/material";
 
 interface Props {
   segments: ISegment[];
@@ -10,6 +11,7 @@ interface Props {
   buttonText?: string | "Spin";
   isOnlyOnce?: boolean | true;
   isAccept?: boolean;
+  sxCanvas?: CSSProperties;
 }
 
 interface IState {
@@ -35,7 +37,38 @@ const Wheel = (props: Props) => {
     onFinished,
     isOnlyOnce,
     isAccept,
+    sxCanvas,
   } = props;
+
+  const ButtonStyled = styled(Fab)(({}) => ({
+    position: "absolute",
+    transform: "translate(-50%, -50%)",
+    top: "50%",
+    left: "50%",
+    fontSize: "2.5vmin;",
+    fontWeight: "bold",
+    fontFamily: "proxima-nova",
+    backgroundColor: `${primaryColor || "black"} !important`,
+    width: "18%",
+    height: "18%",
+    minHeight: "56px",
+    minWidth: "56px",
+    border: "5px solid white",
+    textAlign: "center",
+    color: contrastColor || "white",
+    "::after": {
+      width: "20px",
+      content: '""',
+      height: "20px",
+      borderTop: "20px solid transparent",
+      borderLeft: `20px solid ${contrastColor || "white"}`,
+      clear: "both",
+      transform: "rotate(135deg)",
+      top: "-11px",
+      position: "absolute",
+    },
+  }));
+
   let currentSegment: ISegment;
   const isStarted = useRef(false);
   let timerHandle: NodeJS.Timeout | number | null = 0;
@@ -51,10 +84,9 @@ const Wheel = (props: Props) => {
   let spinStart = 0;
   let frames = 0;
   const [isFinished, setFinished] = useState(false);
-  // const [winningSegment, setWinningSegment] = useState(null as ISegment | null);
   const winningSegment = useRef(null as ISegment | null);
   const [state, dispatch] = useReducer(reducer, { idTest: "-1" });
-  const idTest2 = useRef("-1");
+  const idWin = useRef(idDefault);
   const centerX = 300;
   const centerY = 300;
 
@@ -74,7 +106,7 @@ const Wheel = (props: Props) => {
     ctx.translate(centerX, centerY);
     ctx.rotate((lastAngle + angle) / 2);
     ctx.fillStyle = contrastColor || "white";
-    ctx.font = "bold 1em proxima-nova";
+    ctx.font = "bold 1.2rem proxima-nova";
     ctx.fillText((value.text || "").substr(0, 21), size / 2 + 20, 0);
     ctx.restore();
   };
@@ -84,7 +116,6 @@ const Wheel = (props: Props) => {
     let lastAngle = angleCurrent;
     const len = segments.length;
     const PI2 = Math.PI * 2;
-    console.log(ctx);
 
     // debugger;
     ctx.lineWidth = 1;
@@ -114,31 +145,6 @@ const Wheel = (props: Props) => {
     ctx.fillText(buttonText || "Spin", centerX, centerY + 3);
     ctx.stroke();
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    // canvas.addEventListener(
-    //   "click",
-    //   function (event) {
-    //     if (
-    //       ctx.isPointInPath(circle, event.clientX, event.clientY) &&
-    //       !isStarted.current
-    //     ) {
-    //       // dispatch({ type: "UPDATE_ID", value: "-1" });
-    //       spin();
-    //     }
-    //   },
-    //   false
-    // );
-
-    // canvas.addEventListener(
-    //   "mousemove",
-    //   function (event) {
-    //     if (ctx.isPointInPath(circle, event.clientX, event.clientY)) {
-    //       canvas.style.cursor = !isStarted.current ? "pointer" : "not-allowed";
-    //     } else {
-    //       canvas.style.cursor = "default";
-    //     }
-    //   },
-    //   false
-    // );
 
     // // Draw outer circle
     ctx.beginPath();
@@ -159,7 +165,6 @@ const Wheel = (props: Props) => {
 
   const drawNeedle = () => {
     const ctx = canvasContext.current;
-    console.log(ctx);
     ctx.lineWidth = 1;
     ctx.strokeStyle = contrastColor || "white";
     ctx.fileStyle = contrastColor || "white";
@@ -201,7 +206,7 @@ const Wheel = (props: Props) => {
       angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2);
     } else {
       if (winningSegment.current) {
-        if (currentSegment.id === idTest2.current && frames > segments.length) {
+        if (currentSegment.id === idWin.current && frames > segments.length) {
           progress = duration / upTime;
           angleDelta =
             maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
@@ -223,7 +228,7 @@ const Wheel = (props: Props) => {
     if (finished) {
       setFinished(true);
       dispatch({ type: "UPDATE_ID", value: "-1" });
-      idTest2.current = idDefault;
+      idWin.current = idDefault;
       if (onFinished) onFinished(currentSegment);
       if (timerHandle) clearInterval(timerHandle);
       timerHandle = 0;
@@ -245,9 +250,13 @@ const Wheel = (props: Props) => {
       lenIds.sort(() => Math.random() - 0.5);
       id = lenIds[(Math.random() * lenIds.length) | 0];
       winningSegment.current = { id: id };
+    } else {
+      segments.forEach((element) => {
+        lenIds.push(element.id || "");
+      });
+      id = lenIds[(Math.random() * lenIds.length) | 0];
+      winningSegment.current = { id: id };
     }
-    console.log(lenIds, winningSegment.current);
-    console.log(timerHandle);
     if (timerHandle === 0) {
       spinStart = new Date().getTime();
       maxSpeed = Math.PI / 10;
@@ -255,7 +264,7 @@ const Wheel = (props: Props) => {
       timerHandle = setInterval(onTimerTick, timerDelay);
       setTimeout(() => {
         dispatch({ type: "UPDATE_ID", value: "1" });
-        idTest2.current = id;
+        idWin.current = id;
       }, (timerDelay - 3) * 1000);
     }
   };
@@ -290,27 +299,19 @@ const Wheel = (props: Props) => {
   }, []);
 
   return (
-    <div id="wheel">
+    <div id="wheel" style={{ position: "relative" }}>
       <canvas
         id="canvas"
         width="600"
         height="600"
         style={{
           pointerEvents: isFinished && !isOnlyOnce ? "none" : "auto",
+          ...sxCanvas,
         }}
       />
-      <button
-        id="spin"
-        // style={{
-        //   position: "absolute",
-        //   transform: "translate(-50%, -50%)",
-        //   top: "50%",
-        //   left: "50%",
-        // }}
-        onClick={() => !isStarted.current && spin()}
-      >
+      <ButtonStyled id="spin" onClick={() => !isStarted.current && spin()}>
         {buttonText || "Spin"}
-      </button>
+      </ButtonStyled>
     </div>
   );
 };

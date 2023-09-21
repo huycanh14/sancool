@@ -1,13 +1,33 @@
+"use client";
+import { useAppSelector } from "@/common/hook";
+import ChooseSwitch from "@/components/choose-switch";
 import Wheel from "@/components/wheel";
+import { ESwitch } from "@/enum/ESwitch";
 import { Box, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useEffect } from "react";
 
 const QuayThuongPage = () => {
+  const switchStatus = useAppSelector((state) => state.switch.status);
+
+  useEffect(() => {
+    console.log("switchStatus", switchStatus);
+  }, [switchStatus]);
+
   return (
     <>
       <Container sx={{ flexGrow: 1 }}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2} columns={12}>
+            <Grid
+              md={6}
+              xs={8}
+              xsOffset={2}
+              mdOffset={3}
+              className={"flex justify-end"}
+            >
+              <ChooseSwitch></ChooseSwitch>
+            </Grid>
             <Grid md={6} xs={8} xsOffset={2} mdOffset={3} sx={{}}>
               <Wheel
                 segments={[
@@ -35,7 +55,7 @@ const QuayThuongPage = () => {
                   },
                 ]}
                 isOnlyOnce={true}
-                isAccept={true}
+                isAccept={switchStatus === ESwitch.REAL}
                 sxCanvas={{
                   width: "100%",
                 }}
