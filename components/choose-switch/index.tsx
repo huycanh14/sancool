@@ -1,7 +1,9 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/common/hook";
+import { EStatusSpin } from "@/enum/EStatusSpin";
 import { ESwitch } from "@/enum/ESwitch";
 import { UPDATE_SWITCH } from "@/redux/slices/switchSlice";
+import { CHANGE_STATUS_SPIN } from "@/redux/slices/userSpinSlice";
 import {
   FormGroup,
   Stack,
@@ -86,7 +88,13 @@ const ChooseSwitch = (props: Props) => {
   const dispatchTookit = useAppDispatch();
 
   const handleChange = (checked: boolean) => {
-    dispatchTookit(UPDATE_SWITCH(checked ? ESwitch.REAL : ESwitch.TRY));
+    if (!!checked) {
+      dispatchTookit(UPDATE_SWITCH(ESwitch.REAL));
+      dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.READY));
+    } else {
+      dispatchTookit(UPDATE_SWITCH(ESwitch.TRY));
+      dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.NEW));
+    }
   };
 
   return (

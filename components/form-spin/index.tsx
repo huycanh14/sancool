@@ -1,4 +1,11 @@
+import { useAppDispatch } from "@/common/hook";
 import { EChannel } from "@/enum/EChannel";
+import { EStatusSpin } from "@/enum/EStatusSpin";
+import {
+  CHANGE_STATUS_SPIN,
+  RESET_USER_SPIN,
+  SAVE_DATA_AFTER_SPIN,
+} from "@/redux/slices/userSpinSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
@@ -40,6 +47,7 @@ const FormSpin = (props: IProps) => {
         ),
     })
     .required();
+
   const { control, handleSubmit, reset } = useForm<IFormInput>({
     mode: "onChange",
     defaultValues: {
@@ -48,18 +56,28 @@ const FormSpin = (props: IProps) => {
     },
     resolver: yupResolver(schema),
   });
+  const dispatchTookit = useAppDispatch();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    dispatchTookit(
+      SAVE_DATA_AFTER_SPIN({
+        phone: data.phone,
+        channel: data.channel as EChannel,
+      })
+    );
+    dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.DOING));
+  };
+
+  const onCancel = () => {
+    reset();
+    dispatchTookit(RESET_USER_SPIN());
+    dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.NEW));
+    props.handleClose && props.handleClose();
+  };
 
   return (
     <>
-      <Dialog
-        open={props.isOpen}
-        onClose={() => {
-          reset();
-          props.handleClose && props.handleClose();
-        }}
-      >
+      <Dialog open={props.isOpen} onClose={onCancel}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Thông tin nhận voucher</DialogTitle>
           <DialogContent>
@@ -97,10 +115,6 @@ const FormSpin = (props: IProps) => {
                           </MenuItem>
                         );
                       })}
-
-                      <MenuItem value={"10"}>Ten</MenuItem>
-                      <MenuItem value={"20"}>Twenty</MenuItem>
-                      <MenuItem value={"30"}>Thirty</MenuItem>
                     </TextField>
                   </>
                 )}
@@ -128,14 +142,7 @@ const FormSpin = (props: IProps) => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => {
-                reset();
-                props.handleClose && props.handleClose();
-              }}
-            >
-              Cancel
-            </Button>
+            <Button onClick={onCancel}>Cancel</Button>
             <Button type="submit">Next</Button>
           </DialogActions>
         </form>

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/common/hook";
 import ChooseSwitch from "@/components/choose-switch";
 import FormSpin from "@/components/form-spin";
 import Wheel from "@/components/wheel";
+import { EStatusSpin } from "@/enum/EStatusSpin";
 import { ESwitch } from "@/enum/ESwitch";
 import { UPDATE_SWITCH } from "@/redux/slices/switchSlice";
 import { Box, Container } from "@mui/material";
@@ -11,6 +12,7 @@ import { useEffect } from "react";
 
 const QuayThuongPage = () => {
   const switchStatus = useAppSelector((state) => state.switch.status);
+  const statusSpin = useAppSelector((state) => state.userSpin.statusSpin);
   const dispatchTookit = useAppDispatch();
 
   useEffect(() => {
@@ -74,7 +76,9 @@ const QuayThuongPage = () => {
       </Container>
 
       <FormSpin
-        isOpen={switchStatus === ESwitch.REAL}
+        isOpen={
+          switchStatus === ESwitch.REAL && statusSpin === EStatusSpin.READY
+        }
         handleClose={() => handleCancel()}
       ></FormSpin>
     </>
