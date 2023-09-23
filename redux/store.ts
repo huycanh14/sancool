@@ -1,11 +1,13 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import switchReducer from "./slices/switchSlice";
 import userSpinReducer from "./slices/userSpinSlice";
+import segmentReducer from "./slices/segmentSlice";
 
 export const store = configureStore({
   reducer: {
     switch: switchReducer,
     userSpin: userSpinReducer,
+    segment: segmentReducer,
   },
 });
 

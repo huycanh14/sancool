@@ -1,6 +1,8 @@
 import { useAppDispatch } from "@/common/hook";
 import { EChannel } from "@/enum/EChannel";
 import { EStatusSpin } from "@/enum/EStatusSpin";
+import { ESwitch } from "@/enum/ESwitch";
+import { UPDATE_SWITCH } from "@/redux/slices/switchSlice";
 import {
   CHANGE_STATUS_SPIN,
   RESET_USER_SPIN,
@@ -72,6 +74,7 @@ const FormSpin = (props: IProps) => {
     reset();
     dispatchTookit(RESET_USER_SPIN());
     dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.NEW));
+    dispatchTookit(UPDATE_SWITCH(ESwitch.TRY));
     props.handleClose && props.handleClose();
   };
 
@@ -142,8 +145,15 @@ const FormSpin = (props: IProps) => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onCancel}>Cancel</Button>
-            <Button type="submit">Next</Button>
+            <Button onClick={onCancel} variant="outlined">
+              Hủy
+            </Button>
+            <Button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white"
+            >
+              Tiếp tục
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

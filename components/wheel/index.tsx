@@ -2,6 +2,9 @@
 import { CSSProperties, useEffect, useReducer, useRef, useState } from "react";
 import { ISegment } from "@/models/segment";
 import { Fab, styled } from "@mui/material";
+import { useAppDispatch } from "@/common/hook";
+import { CHANGE_STATUS_SPIN } from "@/redux/slices/userSpinSlice";
+import { EStatusSpin } from "@/enum/EStatusSpin";
 
 interface Props {
   segments: ISegment[];
@@ -89,6 +92,8 @@ const Wheel = (props: Props) => {
   const idWin = useRef(idDefault);
   const centerX = 300;
   const centerY = 300;
+
+  const dispatchTookit = useAppDispatch();
 
   const drawSegment = (key: number, lastAngle: number, angle: number) => {
     const ctx = canvasContext.current;
@@ -234,10 +239,12 @@ const Wheel = (props: Props) => {
       timerHandle = 0;
       angleDelta = 0;
       isStarted.current = false;
+      dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.DONE));
     }
   };
 
   const spin = () => {
+    dispatchTookit(CHANGE_STATUS_SPIN(EStatusSpin.DOING));
     winningSegment.current = null;
     isStarted.current = true;
     const lenIds: string[] = [];

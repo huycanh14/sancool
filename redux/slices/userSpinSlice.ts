@@ -3,12 +3,12 @@ import { EStatusSpin } from "@/enum/EStatusSpin";
 import { IUserSpin } from "@/models/user-spin";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ISwitchState {
+interface IUserSpinState {
   userSpin: IUserSpin;
   statusSpin: EStatusSpin;
 }
 
-const initialState: ISwitchState = {
+const initialState: IUserSpinState = {
   userSpin: {},
   statusSpin: EStatusSpin.NEW,
 };
