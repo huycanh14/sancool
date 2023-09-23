@@ -1,41 +1,35 @@
 import { ISegment } from "@/models/segment";
-import { createSlice } from "@reduxjs/toolkit";
+import { SegmentRepository } from "@/repository/SegmentRepository";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface ISegmentState {
   segments: ISegment[];
 }
-
+const name = "segment";
 const initialState: ISegmentState = {
-  segments: [
-    {
-      id: "1",
-      text: "I phone 13 pro max",
-      color: "#EE4040",
-      occurrence: 2,
-    },
-    { id: "2", text: "Bose surround speakers", color: "#F0CF50" },
-    {
-      id: "3",
-      text: "Samsung 65-Inch Crystal UHD 4K Flat Smart TV",
-      color: "#815CD1",
-    },
-    {
-      id: "4",
-      text: "MacBook Air MGN63 14” Display, Apple M1 Chip With 8-Core",
-      color: "#3DA5E0",
-    },
-    {
-      id: "4",
-      text: "KIA TELLURIDE 2022",
-      color: "#34A24F",
-    },
-  ],
+  segments: [],
 };
 
+const segmentRepository = new SegmentRepository();
+
+export const getSegments = createAsyncThunk(`${name}/getSegments`, async () => {
+  const response = await segmentRepository.getSegmentsAsync();
+  return response;
+});
+
 const segmentSlice = createSlice({
-  name: "segment",
+  name: name,
   initialState: initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(getSegments.fulfilled, (state, action) => {
+      state.segments = action.payload;
+    });
+    builder.addCase(getSegments.rejected, (state, action) => {
+      state.segments = [];
+    });
+  },
 });
 
 export const {} = segmentSlice.actions;

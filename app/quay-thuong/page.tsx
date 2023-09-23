@@ -10,11 +10,12 @@ import Wheel from "@/components/wheel";
 import { EStatusSpin } from "@/enum/EStatusSpin";
 import { ESwitch } from "@/enum/ESwitch";
 import { ISegment } from "@/models/segment";
+import { getSegments } from "@/redux/slices/segmentSlice";
 import { UPDATE_SWITCH } from "@/redux/slices/switchSlice";
 import { CHANGE_STATUS_SPIN } from "@/redux/slices/userSpinSlice";
 import { Box, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 interface IState {
   segment?: ISegment;
@@ -67,6 +68,10 @@ const QuayThuongPage = () => {
     handleCancel();
   };
 
+  useEffect(() => {
+    dispatchTookit(getSegments());
+  }, []);
+
   return (
     <>
       <Container sx={{ flexGrow: 1 }}>
@@ -85,15 +90,17 @@ const QuayThuongPage = () => {
               ></ChooseSwitch>
             </Grid>
             <Grid md={6} xs={8} xsOffset={2} mdOffset={3} sx={{}}>
-              <Wheel
-                segments={segments}
-                isOnlyOnce={true}
-                isAccept={switchStatus === ESwitch.REAL}
-                sxCanvas={{
-                  width: "100%",
-                }}
-                onFinished={onFinished}
-              />
+              {segments.length > 0 && (
+                <Wheel
+                  segments={segments}
+                  isOnlyOnce={true}
+                  isAccept={switchStatus === ESwitch.REAL}
+                  sxCanvas={{
+                    width: "100%",
+                  }}
+                  onFinished={onFinished}
+                />
+              )}
             </Grid>
           </Grid>
         </Box>
