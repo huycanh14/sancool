@@ -6,7 +6,7 @@ import { UPDATE_SWITCH } from "@/redux/slices/switchSlice";
 import {
   CHANGE_STATUS_SPIN,
   RESET_USER_SPIN,
-  SAVE_DATA_AFTER_SPIN,
+  SAVE_DATA_BEFORE_SPIN,
 } from "@/redux/slices/userSpinSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -62,7 +62,7 @@ const FormSpin = (props: IProps) => {
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     dispatchTookit(
-      SAVE_DATA_AFTER_SPIN({
+      SAVE_DATA_BEFORE_SPIN({
         phone: data.phone,
         channel: data.channel as EChannel,
       })

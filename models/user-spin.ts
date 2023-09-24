@@ -5,4 +5,7 @@ export interface IUserSpin {
   phone?: string;
   channel?: EChannel;
   voucher?: string;
+  expiredAt?: Date | string;
+  createdAt?: Date | string;
+  segment?: string;
 }

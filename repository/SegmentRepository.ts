@@ -5,7 +5,6 @@ import { collection, getDocs } from "firebase/firestore";
 
 export class SegmentRepository {
   async getSegmentsAsync(): Promise<ISegment[]> {
-    console.log(11111);
     try {
       const segments: ISegment[] = [];
       const querySnapshot = await getDocs(
