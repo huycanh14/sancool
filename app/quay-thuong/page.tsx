@@ -1,5 +1,4 @@
 "use client";
-import type { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useAppDispatch, useAppSelector } from "@/common/hook";
 import ChooseSwitch from "@/components/choose-switch";
 import {
@@ -23,6 +22,7 @@ import { Box, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useReducer } from "react";
 import { getConfigs } from "@/redux/slices/configSlice";
+import { FooterClient } from "@/components/footer";
 
 interface IState {
   segment?: ISegment;
@@ -52,7 +52,6 @@ const QuayThuongPage = () => {
   const statusSpin = useAppSelector((state) => state.userSpin.statusSpin);
   const segments = useAppSelector((state) => state.segment.segments);
   const configs = useAppSelector((state) => state.config.configs);
-  const userSpin = useAppSelector((state) => state.userSpin.userSpin);
   const dispatchTookit = useAppDispatch();
 
   const [state, dispatch] = useReducer(reducer, {});
@@ -111,32 +110,49 @@ const QuayThuongPage = () => {
     <>
       <Container sx={{ flexGrow: 1 }}>
         <Box sx={{ flexGrow: 1, my: 4 }}>
-          <Grid container spacing={2} columns={12}>
-            <Grid
-              md={6}
-              xs={8}
-              xsOffset={2}
-              mdOffset={3}
-              className={"flex justify-end"}
-            >
-              <ChooseSwitch
-                txtTry="Quay thử"
-                txtReal="Quay thật"
-              ></ChooseSwitch>
-            </Grid>
-            <Grid md={6} xs={8} xsOffset={2} mdOffset={3} sx={{}}>
-              {segments.length > 0 && (
-                <Wheel
-                  segments={segments}
-                  isOnlyOnce={true}
-                  isAccept={switchStatus === ESwitch.REAL}
-                  sxCanvas={{
-                    width: "100%",
-                  }}
-                  onFinished={onFinished}
-                />
-              )}
-            </Grid>
+          <Grid container spacing={2} columns={12} className={"items-center"}>
+            <Grid xs={12} md={8}>
+              <Grid container spacing={2} columns={12}>
+                <Grid
+                  md={8}
+                  xs={8}
+                  xsOffset={2}
+                  mdOffset={2}
+                  className={"flex justify-end"}
+                >
+                  <ChooseSwitch
+                    txtTry="Quay thử"
+                    txtReal="Quay thật"
+                  ></ChooseSwitch>
+                </Grid>
+                <Grid md={8} xs={8} xsOffset={2} mdOffset={2} sx={{}}>
+                  {segments.length > 0 && (
+                    <Wheel
+                      segments={segments}
+                      isOnlyOnce={true}
+                      isAccept={switchStatus === ESwitch.REAL}
+                      sxCanvas={{
+                        width: "100%",
+                      }}
+                      onFinished={onFinished}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>{" "}
+            {!state.showRule && configs.length > 0 && (
+              <Grid xs={12} md={4}>
+                <Grid container spacing={2} columns={12}>
+                  <Grid xs={8} xsOffset={2}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: configs.length > 0 ? configs[0].rule || "" : "",
+                      }}
+                    ></div>
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Container>
@@ -170,6 +186,8 @@ const QuayThuongPage = () => {
           dispatch({ type: ETypeState.UPDATE_SHOW_RULE, payload: false })
         }
       ></MessageForRule>
+
+      <FooterClient></FooterClient>
     </>
   );
 };
