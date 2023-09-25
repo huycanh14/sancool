@@ -1,10 +1,4 @@
-import {
-  Box,
-  Grid,
-  Typography,
-  Container,
-  IconButton,
-} from "@mui/material";
+import { Box, Grid, Typography, Container, IconButton } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { useAppSelector } from "@/common/hook";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -133,8 +127,9 @@ const FooterClient = () => {
                     xs: "center",
                     md: "right",
                   },
+                  color: "#e5e7eb",
                 }}
-                className={" text-white"}
+                className={"text-white"}
               >
                 © 2023 Sancool. All rights reserved.
               </Typography>

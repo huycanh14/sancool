@@ -10,7 +10,7 @@ export class ConfigRepository {
       collection(db, ECollectionFirebase.CONFIG)
     );
     querySnapshot.forEach((doc) => {
-      configs.push({ ...doc.data(), id: doc.id });
+      configs.push({ ...doc.data(), id: doc.id } as IConfig);
     });
     return configs;
   }
