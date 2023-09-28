@@ -101,7 +101,10 @@ const ChooseSwitch = (props: Props) => {
     <>
       <FormGroup>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Typography sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}>
+          <Typography
+            sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}
+            className="text-[#455A64]"
+          >
             {props.txtTry || "Try"}
           </Typography>
           <SwitchStyled
@@ -109,7 +112,10 @@ const ChooseSwitch = (props: Props) => {
             onChange={(_, checked) => handleChange(checked)}
             checked={switchStatus === ESwitch.REAL}
           />
-          <Typography sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}>
+          <Typography
+            sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}
+            className="text-[#455A64]"
+          >
             {props.txtReal || "Real"}
           </Typography>
         </Stack>

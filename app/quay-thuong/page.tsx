@@ -148,6 +148,7 @@ const QuayThuongPage = () => {
                       dangerouslySetInnerHTML={{
                         __html: configs.length > 0 ? configs[0].rule || "" : "",
                       }}
+                      className="text-[#455A64]"
                     ></div>
                   </Grid>
                 </Grid>

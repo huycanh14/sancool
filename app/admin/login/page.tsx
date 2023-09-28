@@ -9,10 +9,10 @@ import * as yup from "yup";
 import { useEffect, useReducer } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { UserRepository } from "@/repository/UserRepository";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/common/firebase";
+import { useAuth } from "@/common/contexts/AuthProvider";
 
 interface IFormInput {
   email: string;
@@ -53,6 +53,7 @@ const reducer = (state: IState, action: any) => {
 };
 
 const LoginAdminPage = () => {
+  const { login, authKey, setAuthKey } = useAuth();
   const schema = yup
     .object()
     .shape({
@@ -80,22 +81,20 @@ const LoginAdminPage = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     dispatch({ type: ETypeState.LOADING, payload: ETypeLoading.LOADING });
-    const response = await userRepository.signInWithEmailAndPassAsync({
-      email: data.email,
-      password: data.password,
-    });
+    const response = await login(data.email, data.password);
     dispatch({ type: ETypeState.LOADED, payload: ETypeLoading.LOADED });
 
     if (!response || response === "") {
       toast.error("Thông tin đăng nhập không đúng");
     } else {
+      setAuthKey(response);
       router.replace("/admin");
     }
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && !!authKey) {
         router.replace("/admin");
       }
     });
@@ -192,9 +191,9 @@ const LoginAdminPage = () => {
           </BoxedLayout>
         </Grid>
       </Grid>
-      <ToastContainer></ToastContainer>
     </>
   );
 };
 
 export default LoginAdminPage;
+LoginAdminPage.getLayout = (page: any) => page;

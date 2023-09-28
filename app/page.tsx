@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   useEffect(() => {
-    redirect("/quay-thuong");
+    router.replace("/quay-thuong");
   }, []);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

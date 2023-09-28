@@ -69,6 +69,7 @@ const Wheel = (props: Props) => {
       transform: "rotate(135deg)",
       top: "-11px",
       position: "absolute",
+      boxSizing: "border-box",
     },
   }));
 
