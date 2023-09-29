@@ -1,7 +1,15 @@
 import { db } from "@/common/firebase";
 import { ECollectionFirebase } from "@/enum/ECollectionFirebase";
 import { IUserSpin } from "@/models/user-spin";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 
 export class UserSpinRepository {
   async create(payload: IUserSpin): Promise<string> {
@@ -23,5 +31,30 @@ export class UserSpinRepository {
     );
     cnt = querySnapshot.size;
     return cnt;
+  }
+
+  async getsAsync(): Promise<IUserSpin[]> {
+    const userSpins: IUserSpin[] = [];
+    const querySnapshot = await getDocs(
+      collection(db, ECollectionFirebase.USER_SPIN)
+    );
+    querySnapshot.forEach((doc) => {
+      userSpins.push({ ...doc.data(), id: doc.id });
+    });
+    return userSpins;
+  }
+
+  async deleteMultipleAsync(ids: string[]): Promise<boolean> {
+    try {
+      const batch = writeBatch(db);
+      ids.forEach((docId) => {
+        batch.delete(doc(db, ECollectionFirebase.USER_SPIN, docId));
+      });
+      await batch.commit();
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 }

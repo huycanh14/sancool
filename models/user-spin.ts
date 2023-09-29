@@ -1,7 +1,7 @@
 import { EChannel } from "@/enum/EChannel";
 
 export interface IUserSpin {
-  id?: string;
+  id?: string | "0";
   phone?: string;
   channel?: EChannel;
   voucher?: string;

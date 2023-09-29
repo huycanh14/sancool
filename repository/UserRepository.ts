@@ -11,7 +11,6 @@ export class UserRepository {
       payload.password
     )
       .then((userCredential) => {
-        console.log(userCredential);
         // Signed in
         const user = userCredential.user;
         return user.uid;

@@ -7,11 +7,13 @@ import { RootState } from "../store";
 
 interface IUserSpinState {
   userSpin: IUserSpin;
+  userSpins: IUserSpin[];
   statusSpin: EStatusSpin;
 }
 
 const initialState: IUserSpinState = {
   userSpin: {},
+  userSpins: [],
   statusSpin: EStatusSpin.NEW,
 };
 const name = "userSpin";
@@ -27,6 +29,24 @@ export const createUserSpin = createAsyncThunk(
       return await userSpinRepository.create(userSpin);
     }
     return "false";
+  }
+);
+
+export const getUserSpins = createAsyncThunk(
+  `${name}/getUserSpins`,
+  async () => {
+    return await userSpinRepository.getsAsync();
+  }
+);
+
+export const deleteUserSpins = createAsyncThunk(
+  `${name}/deletUserSpins`,
+  async (payload: string[], { dispatch }) => {
+    const res = await userSpinRepository.deleteMultipleAsync(payload);
+    if (res) {
+      dispatch(getUserSpins());
+    }
+    return res;
   }
 );
 
@@ -75,6 +95,18 @@ const userSpinSlice = createSlice({
     });
     builder.addCase(createUserSpin.rejected, (state, action) => {
       // state.configs = [];
+    });
+    builder.addCase(getUserSpins.fulfilled, (state, action) => {
+      state.userSpins = action.payload;
+    });
+    builder.addCase(getUserSpins.rejected, (state, action) => {
+      state.userSpins = [];
+    });
+    builder.addCase(deleteUserSpins.fulfilled, (state, action) => {
+      getUserSpins();
+    });
+    builder.addCase(deleteUserSpins.rejected, (state, action) => {
+      // state.userSpins = [];
     });
   },
 });

@@ -15,7 +15,7 @@ export class SegmentRepository {
       });
       return segments;
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
       throw ex;
     }
   }
