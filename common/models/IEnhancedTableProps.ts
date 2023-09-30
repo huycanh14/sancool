@@ -1,5 +1,6 @@
 import { Order } from "@/type/order";
 import { IHeadCell } from "./IHeadCell";
+import { ReactNode } from "react";
 
 export interface IEnhancedTableProps<T> {
   numSelected: number;
@@ -9,4 +10,5 @@ export interface IEnhancedTableProps<T> {
   orderBy: string;
   rowCount: number;
   headCells: IHeadCell<T>[];
+  headMore?: ReactNode;
 }

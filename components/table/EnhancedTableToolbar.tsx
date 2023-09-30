@@ -2,6 +2,7 @@ import { IEnhancedTableToolbarProps } from "@/common/models/IEnhancedTableToolba
 import { Toolbar, alpha, Typography, Tooltip, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import AddIcon from "@mui/icons-material/Add";
 
 const EnhancedTableToolbar = (props: IEnhancedTableToolbarProps) => {
   const { numSelected } = props;
@@ -39,6 +40,15 @@ const EnhancedTableToolbar = (props: IEnhancedTableToolbarProps) => {
           {props.title}
         </Typography>
       )}
+      {props.handleClickAdd && (
+        <Tooltip title="Add">
+          <IconButton
+            onClick={(e) => props.handleClickAdd && props.handleClickAdd(e)}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton
@@ -50,15 +60,19 @@ const EnhancedTableToolbar = (props: IEnhancedTableToolbarProps) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton
-            onClick={(e) =>
-              props.handleClickFilter && props.handleClickFilter(e)
-            }
-          >
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          {props.handleClickFilter && (
+            <Tooltip title="Filter list">
+              <IconButton
+                onClick={(e) =>
+                  props.handleClickFilter && props.handleClickFilter(e)
+                }
+              >
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        </>
       )}
     </Toolbar>
   );

@@ -151,6 +151,7 @@ const FormSpin = (props: IProps) => {
             <Button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white"
+              variant="contained"
             >
               Tiếp tục
             </Button>

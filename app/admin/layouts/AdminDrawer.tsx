@@ -8,17 +8,13 @@ import {
   Drawer,
   ListItem,
   ListItemButton,
-  styled,
 } from "@mui/material";
 // import { useAuth } from "../../auth/contexts/AuthProvider";
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import PeopleIcon from "@mui/icons-material/People";
-import EventIcon from "@mui/icons-material/Event";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import HelpCenterIcon from "@mui/icons-material/HelpCenter";
-import { usePathname, useRouter } from "next/navigation";
+import SegmentIcon from "@mui/icons-material/Segment";
+import { usePathname } from "next/navigation";
 
 type AdminDrawerProps = {
   collapsed: boolean;
@@ -39,6 +35,12 @@ export const menuItems = [
     key: "user-spin",
     name: "Người quay",
     path: "/admin/user-spin",
+  },
+  {
+    icon: SegmentIcon,
+    key: "segment",
+    name: "Voucher",
+    path: "/admin/segment",
   },
 ];
 

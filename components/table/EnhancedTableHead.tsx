@@ -60,6 +60,7 @@ export const EnhancedTableHead = <T,>(props: IEnhancedTableProps<T>) => {
             </TableSortLabel>
           </TableCell>
         ))}
+        {props.headMore && props.headMore}
       </TableRow>
     </TableHead>
   );

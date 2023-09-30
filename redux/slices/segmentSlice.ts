@@ -17,6 +17,28 @@ export const getSegments = createAsyncThunk(`${name}/getSegments`, async () => {
   return response;
 });
 
+export const createSegment = createAsyncThunk(
+  `${name}/createSegment`,
+  async (payload: ISegment, { dispatch }) => {
+    const res = await segmentRepository.createAsync(payload);
+    if (!!res) {
+      dispatch(getSegments());
+    }
+    return res;
+  }
+);
+
+export const updateSegment = createAsyncThunk(
+  `${name}/updateSegment`,
+  async (payload: ISegment, { dispatch }) => {
+    const res = await segmentRepository.updateAsync(payload);
+    if (!!res) {
+      dispatch(getSegments());
+    }
+    return res;
+  }
+);
+
 const segmentSlice = createSlice({
   name: name,
   initialState: initialState,

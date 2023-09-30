@@ -3,4 +3,5 @@ export interface IEnhancedTableToolbarProps {
   title: string;
   handleClickFilter?: Function;
   handleClickDelete?: Function;
+  handleClickAdd?: Function;
 }
