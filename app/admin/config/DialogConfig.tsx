@@ -1,3 +1,4 @@
+"use client";
 import { IConfig } from "@/models/config";
 import {
   Box,
@@ -17,7 +18,11 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import "react-quill/dist/quill.core.css"; // Import Quill styles
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+// import ReactQuill from "react-quill";
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 
 interface IProps {
   isOpen: boolean;
