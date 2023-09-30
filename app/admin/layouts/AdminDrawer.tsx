@@ -14,7 +14,10 @@ import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SegmentIcon from "@mui/icons-material/Segment";
-import { usePathname } from "next/navigation";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { usePathname, useRouter } from "next/navigation";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useAuth } from "@/common/contexts/AuthProvider";
 
 type AdminDrawerProps = {
   collapsed: boolean;
@@ -42,6 +45,12 @@ export const menuItems = [
     name: "Voucher",
     path: "/admin/segment",
   },
+  {
+    icon: SettingsIcon,
+    key: "config",
+    name: "Cấu hình",
+    path: "/admin/config",
+  },
 ];
 
 const AdminDrawer = ({
@@ -52,7 +61,14 @@ const AdminDrawer = ({
 }: AdminDrawerProps) => {
   const width = collapsed ? drawerCollapsedWidth : drawerWidth;
   const pathname = usePathname();
+  const { logout, setAuthKey } = useAuth();
+  const router = useRouter();
 
+  const handleLogout = async () => {
+    await logout();
+    setAuthKey("");
+    router.replace("/admin/login");
+  };
   const drawer = (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
       {/* <Logo sx={{ display: "flex", p: 4 }} /> */}
@@ -95,32 +111,18 @@ const AdminDrawer = ({
       </List>
       <Box sx={{ flexGrow: 1 }} />
       <List component="nav" sx={{ p: 2 }}>
-        <Link
-          // button
-          // component={NavLink}
-          href={`/${process.env.NEXT_PUBLIC_URL}/admin/profile`}
-        >
-          <ListItemAvatar>
-            <Avatar>{/* <PersonIcon /> */}</Avatar>
-          </ListItemAvatar>
-          {/* {userInfo && (
-            <ListItemText
-              primary={`${userInfo.firstName} ${userInfo.lastName}`}
-              sx={{
-                display: collapsed ? "none" : "block",
-              }}
-            />
-          )} */}
-        </Link>
         <ListItem button onClick={onSettingsToggle}>
           <ListItemAvatar>
-            <Avatar>{/* <SettingsIcon /> */}</Avatar>
+            <Avatar>
+              <LogoutIcon></LogoutIcon>
+            </Avatar>
           </ListItemAvatar>
           <ListItemText
-            primary={"settings"}
+            primary={"Đăng xuất"}
             sx={{
               display: collapsed ? "none" : "block",
             }}
+            onClick={handleLogout}
           />
         </ListItem>
       </List>

@@ -8,5 +8,5 @@ export interface IConfig {
   linkFanpage?: string;
   linkShopee?: string;
   linkTiktok?: string;
-  zalo: string;
+  zalo?: string;
 }

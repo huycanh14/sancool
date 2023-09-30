@@ -1,5 +1,5 @@
 import { auth } from "@/common/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 export class UserRepository {
   async signInWithEmailAndPassAsync(payload: {
     email: string;
@@ -22,5 +22,9 @@ export class UserRepository {
         console.error(errorMessage);
         return "";
       });
+  }
+
+  async singOutAsync() {
+    return await signOut(auth);
   }
 }

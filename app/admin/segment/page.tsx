@@ -1,7 +1,6 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/common/hook";
 import { IHeadCell } from "@/common/models/IHeadCell";
-import { deleteUserSpins } from "@/redux/slices/userSpinSlice";
 import {
   Box,
   Checkbox,
@@ -26,6 +25,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { toast } from "react-toastify";
 import {
   createSegment,
+  deleteSegments,
   getSegments,
   updateSegment,
 } from "@/redux/slices/segmentSlice";
@@ -152,7 +152,7 @@ const AdminUserSpinPage = () => {
 
   const handleClickDelete = async () => {
     if (selected.length > 0) {
-      const response = await dispatchTookit(deleteUserSpins([...selected]));
+      const response = await dispatchTookit(deleteSegments([...selected]));
       if (!!response) {
         setSelected([]);
         toast.success("Xóa thành công");

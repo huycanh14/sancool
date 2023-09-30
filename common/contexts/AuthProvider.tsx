@@ -4,6 +4,7 @@ import { UserRepository } from "@/repository/UserRepository";
 import { usePathname, useRouter } from "next/navigation";
 interface AuthContextInterface {
   login: (email: string, password: string) => Promise<string>;
+  logout: () => Promise<void>;
   authKey: string;
   setAuthKey: (value: string) => void;
 }
@@ -27,6 +28,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     });
   };
 
+  const handleLogout = async () => {
+    await userRepository.singOutAsync();
+  };
+
   useEffect(() => {
     if (pathname !== "/admin/login" && !authKey) {
       router.replace("/admin/login");
@@ -39,6 +44,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         authKey,
         setAuthKey,
         login: handleLogin,
+        logout: handleLogout,
       }}
     >
       {children}

@@ -214,6 +214,10 @@ const AdminUserSpinPage = () => {
     handleClose();
   };
 
+  const checkExpiredAt = (date: Date | string) => {
+    return dayjs(date, "YYYY-MM-DD").isBefore(dayjs(new Date(), "YYYY-MM-DD"));
+  };
+
   useEffect(() => {
     dispatchTookit(getUserSpins());
   }, []);
@@ -261,7 +265,12 @@ const AdminUserSpinPage = () => {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
-                      sx={{ cursor: "pointer" }}
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor: checkExpiredAt(row.expiredAt + "")
+                          ? "gainsboro"
+                          : "unset",
+                      }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox

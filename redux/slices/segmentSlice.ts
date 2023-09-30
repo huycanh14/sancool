@@ -39,6 +39,17 @@ export const updateSegment = createAsyncThunk(
   }
 );
 
+export const deleteSegments = createAsyncThunk(
+  `${name}/deletSegments`,
+  async (payload: string[], { dispatch }) => {
+    const res = await segmentRepository.deleteMultipleAsync(payload);
+    if (res) {
+      dispatch(getSegments());
+    }
+    return res;
+  }
+);
+
 const segmentSlice = createSlice({
   name: name,
   initialState: initialState,

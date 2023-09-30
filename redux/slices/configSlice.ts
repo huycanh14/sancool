@@ -17,6 +17,28 @@ export const getConfigs = createAsyncThunk(`${name}/getConfigs`, async () => {
   return response;
 });
 
+export const createConfig = createAsyncThunk(
+  `${name}/createConfig`,
+  async (payload: IConfig, { dispatch }) => {
+    const res = await configRepository.createAsync(payload);
+    if (!!res) {
+      dispatch(getConfigs());
+    }
+    return res;
+  }
+);
+
+export const updateConfig = createAsyncThunk(
+  `${name}/updateConfig`,
+  async (payload: IConfig, { dispatch }) => {
+    const res = await configRepository.updateAsync(payload);
+    if (!!res) {
+      dispatch(getConfigs());
+    }
+    return res;
+  }
+);
+
 const configSlice = createSlice({
   name: name,
   initialState: initialState,
