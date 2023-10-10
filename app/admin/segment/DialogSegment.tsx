@@ -37,13 +37,21 @@ interface IFormInput {
   text: string;
   color: string;
   occurrence: number | 0;
+  occurrenceTest: number | 0;
 }
 const schema = yup
   .object()
   .shape({
     text: yup.string().required("Voucher hông được bỏ trống"),
     color: yup.string().required("Màu sắc không được bỏ trống"),
-    occurrence: yup.number().required("Số lần xuất hiện không được bỏ trống"),
+    occurrence: yup
+      .number()
+      .min(0, "Tối thiểu là 0")
+      .required("Số lần xuất hiện không được bỏ trống"),
+    occurrenceTest: yup
+      .number()
+      .min(0, "Tối thiểu là 0")
+      .required("Số lần xuất hiện (thử) không được bỏ trống"),
   })
   .required();
 
@@ -54,6 +62,7 @@ const DialogSegment = (props: IProps) => {
       text: "",
       color: "#fff",
       occurrence: 0,
+      occurrenceTest: 0,
     },
     resolver: yupResolver(schema),
   });
@@ -145,6 +154,29 @@ const DialogSegment = (props: IProps) => {
                         error={!!formState.errors["occurrence"]}
                         helperText={`${
                           formState.errors["occurrence"]?.message ?? ""
+                        }`}
+                      ></TextField>
+                    </>
+                  )}
+                ></Controller>
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Controller
+                  control={control}
+                  name={"occurrenceTest"}
+                  render={({ field, formState }) => (
+                    <>
+                      <TextField
+                        fullWidth
+                        {...field}
+                        type={"number"}
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
+                        label="Số lần xuất hiện (Thử)"
+                        error={!!formState.errors["occurrenceTest"]}
+                        helperText={`${
+                          formState.errors["occurrenceTest"]?.message ?? ""
                         }`}
                       ></TextField>
                     </>

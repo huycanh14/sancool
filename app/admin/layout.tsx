@@ -1,4 +1,5 @@
 "use client";
+import "./style.css";
 import AuthProvider from "@/common/contexts/AuthProvider";
 import { usePathname } from "next/navigation";
 import { ToastContainer } from "react-toastify";

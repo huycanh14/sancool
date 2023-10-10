@@ -66,6 +66,12 @@ const AdminUserSpinPage = () => {
       label: "Số lần xuất hiện",
     },
     {
+      id: "occurrenceTest",
+      numeric: true,
+      disablePadding: false,
+      label: "Số lần xuất hiện (Thử)",
+    },
+    {
       id: "color",
       numeric: false,
       disablePadding: false,
@@ -261,6 +267,12 @@ const AdminUserSpinPage = () => {
                         align="right"
                       >
                         {row.occurrence}
+                      </TableCell>
+                      <TableCell
+                        onClick={(event) => handleClick(event, row.id + "")}
+                        align="right"
+                      >
+                        {row.occurrenceTest}
                       </TableCell>
                       <TableCell
                         onClick={(event) => handleClick(event, row.id + "")}

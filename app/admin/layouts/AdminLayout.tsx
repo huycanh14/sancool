@@ -23,7 +23,7 @@ const AdminAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <Box
           component="main"
           sx={{ flexGrow: 1, pb: 3, px: { xs: 3, sm: 6 } }}
-          className="text-[#455A64]"
+          // className="text-[#455A64]"
         >
           <Toolbar />
           <AdminAppBar>

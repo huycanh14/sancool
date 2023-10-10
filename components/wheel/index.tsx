@@ -260,8 +260,11 @@ const Wheel = (props: Props) => {
       winningSegment.current = { id: id };
     } else {
       segments.forEach((element) => {
-        lenIds.push(element.id || "");
+        // lenIds.push(element.id || "");
+        for (let i = 0; i < (element.occurrenceTest || 1); i++)
+          lenIds.push(element.id || "");
       });
+      lenIds.sort(() => Math.random() - 0.5);
       id = lenIds[(Math.random() * lenIds.length) | 0];
       winningSegment.current = { id: id };
     }

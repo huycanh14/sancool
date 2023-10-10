@@ -20,7 +20,8 @@ const FooterClient = () => {
           paddingBottom: "1rem",
           position: "fixed",
           bottom: 0,
-          backgroundColor: "rgba(51,51,51,.95)",
+          // backgroundColor: "rgba(51,51,51,.95)",
+          backgroundColor: "rgb(19 18 18 / 95%)",
         }}
       >
         <Container maxWidth="lg">

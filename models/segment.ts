@@ -3,4 +3,5 @@ export interface ISegment {
   text?: string;
   color?: string;
   occurrence?: number | 0;
+  occurrenceTest?: number | 0;
 }

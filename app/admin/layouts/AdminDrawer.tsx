@@ -18,6 +18,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { usePathname, useRouter } from "next/navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/common/contexts/AuthProvider";
+import Logo from "/public/logo.png";
+import Image from "next/image";
 
 type AdminDrawerProps = {
   collapsed: boolean;
@@ -72,6 +74,16 @@ const AdminDrawer = ({
   const drawer = (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
       {/* <Logo sx={{ display: "flex", p: 4 }} /> */}
+      <Box sx={{ display: "flex", px: 4, py: 2 }}>
+        <Image
+          // src={"/public/logo.png"}
+          src={Logo}
+          height={40}
+          width={40}
+          alt="Picture logo"
+        />
+      </Box>
+
       <List component="nav" sx={{ px: 2 }}>
         {menuItems.map((item) => (
           <ListItem
