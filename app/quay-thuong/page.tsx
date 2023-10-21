@@ -23,6 +23,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useReducer } from "react";
 import { getConfigs } from "@/redux/slices/configSlice";
 import { FooterClient } from "@/components/footer";
+import { EChannel } from "@/enum/EChannel";
 
 interface IState {
   segment?: ISegment;
@@ -50,6 +51,7 @@ const reducer = (state: IState, action: any) => {
 const QuayThuongPage = () => {
   const switchStatus = useAppSelector((state) => state.switch.status);
   const statusSpin = useAppSelector((state) => state.userSpin.statusSpin);
+  const userSpin = useAppSelector((state) => state.userSpin.userSpin);
   const segments = useAppSelector((state) => state.segment.segments);
   const configs = useAppSelector((state) => state.config.configs);
   const dispatchTookit = useAppDispatch();
@@ -94,7 +96,25 @@ const QuayThuongPage = () => {
   };
 
   const onGoToShop = () => {
-    window.open("https://fb.com", "_blank", "noreferrer");
+    if (userSpin.channel === EChannel.SHOPEE) {
+      window.open(
+        configs.length > 0
+          ? configs[0].linkChatShopee || "https://shopee.vn/"
+          : "https://shopee.vn/",
+        "_blank",
+        "noreferrer"
+      );
+    } else if (userSpin.channel === EChannel.TIKTOK) {
+      window.open(
+        configs.length > 0
+          ? configs[0].linkChatTiktok || "https://www.tiktok.com/vi-VN/"
+          : "https://www.tiktok.com/vi-VN/",
+        "_blank",
+        "noreferrer"
+      );
+    } else {
+      window.open("https://fb.com", "_blank", "noreferrer");
+    }
     handleCancel();
   };
 
@@ -146,9 +166,16 @@ const QuayThuongPage = () => {
                   <Grid xs={8} xsOffset={2}>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: configs.length > 0 ? configs[0].rule || "" : "",
+                        __html:
+                          configs.length > 0
+                            ? configs[0].rule?.replaceAll(
+                                'style="color: rgba(0, 0, 0, 0.8);"',
+                                ""
+                              ) || ""
+                            : "",
                       }}
-                      // className="text-[#455A64]"
+                      // sx={{ color: "#e5e7eb" }}
+                      className="text-[#e5e7eb]"
                     ></div>
                   </Grid>
                 </Grid>
