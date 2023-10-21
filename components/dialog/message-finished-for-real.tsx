@@ -36,8 +36,8 @@ const MessageFinishedForReal = (props: IProps) => {
             !!!!
           </DialogTitle>
           <DialogContentText sx={{ mx: 3, my: 1 }}>
-            Chọn &quot;Nhận giải&quot; để liên lạc với shop để nhận giải
-            thưởng. Nên chụp lại màn hình kết quả
+            Chọn &quot;NHẬN GIẢ&quot; để và nhắn tin với shop nhận thưởng. Trong
+            15 ngày kể từ khi nhận kết quả quay mini game.
           </DialogContentText>
         </Box>
         <Box sx={{ my: 2 }}>
@@ -50,6 +50,7 @@ const MessageFinishedForReal = (props: IProps) => {
             </Button>
             <Button
               type="submit"
+              variant="contained"
               className="bg-blue-500 hover:bg-blue-700 text-white"
               onClick={() => props.onGoToShop && props.onGoToShop()}
             >

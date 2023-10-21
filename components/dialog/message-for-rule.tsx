@@ -22,6 +22,7 @@ const MessageForRule = (props: Props) => {
           <DialogActions>
             <Button
               type="submit"
+              variant="contained"
               className="bg-blue-500 hover:bg-blue-700 text-white"
               onClick={() => props.onCancel && props.onCancel()}
             >
