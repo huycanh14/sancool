@@ -50,8 +50,8 @@ const MessageFinishedForReal = (props: IProps) => {
             </Button>
             <Button
               type="submit"
-              variant="contained"
               className="bg-blue-500 hover:bg-blue-700 text-white"
+              variant="contained"
               onClick={() => props.onGoToShop && props.onGoToShop()}
             >
               Nhận giải

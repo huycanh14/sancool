@@ -50,6 +50,7 @@ const MessageFinishedForTry = (props: IProps) => {
             <Button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white"
+              variant="contained"
               onClick={() => props.onSwitchToReal && props.onSwitchToReal()}
             >
               Quay thật
