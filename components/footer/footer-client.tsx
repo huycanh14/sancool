@@ -18,7 +18,10 @@ const FooterClient = () => {
           height: "auto",
           paddingTop: "1rem",
           paddingBottom: "1rem",
-          position: "fixed",
+          position: {
+            md: "fixed",
+            xs: "unset",
+          },
           bottom: 0,
           // backgroundColor: "rgba(51,51,51,.95)",
           backgroundColor: "rgb(19 18 18 / 95%)",

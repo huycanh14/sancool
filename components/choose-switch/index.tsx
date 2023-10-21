@@ -103,7 +103,7 @@ const ChooseSwitch = (props: Props) => {
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography
             sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}
-            // className="text-[#455A64]"
+            className="text-[#e5e7eb]"
           >
             {props.txtTry || "Try"}
           </Typography>
@@ -114,7 +114,7 @@ const ChooseSwitch = (props: Props) => {
           />
           <Typography
             sx={{ fontSize: "1.5rem", textTransform: "uppercase" }}
-            // className="text-[#455A64]"
+            className="text-[#e5e7eb]"
           >
             {props.txtReal || "Real"}
           </Typography>
