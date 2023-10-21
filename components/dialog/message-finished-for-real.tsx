@@ -36,7 +36,7 @@ const MessageFinishedForReal = (props: IProps) => {
             !!!!
           </DialogTitle>
           <DialogContentText sx={{ mx: 3, my: 1 }}>
-            Chọn &quot;NHẬN GIẢ&quot; để và nhắn tin với shop nhận thưởng. Trong
+            Chọn &quot;NHẬN GIẢI&quot; để và nhắn tin với shop nhận thưởng. Trong
             15 ngày kể từ khi nhận kết quả quay mini game.
           </DialogContentText>
         </Box>
