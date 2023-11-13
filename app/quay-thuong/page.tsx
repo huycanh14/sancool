@@ -71,17 +71,18 @@ const QuayThuongPage = () => {
       await dispatchTookit(
         SAVE_DATA_AFTER_SPIN({
           segment: segment.text || "",
-          createdAt: new Date().toUTCString(),
-          expiredAt: new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate() +
-              (configs.length > 0 ? configs[0].express || 30 : 30)
-          ).toUTCString(),
+          createdAt: new Date() + "",
+          expiredAt:
+            new Date(
+              today.getFullYear(),
+              today.getMonth(),
+              today.getDate() +
+                (configs.length > 0 ? (configs[0].express ?? 30) * 1 : 30)
+            ) + "",
         })
       );
       await dispatchTookit(
-        createUserSpin(configs.length > 0 ? configs[0].limit || 1 : 1)
+        createUserSpin(configs.length > 0 ? (configs[0].limit || 1) * 1 : 1)
       );
     }
   };

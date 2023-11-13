@@ -6,6 +6,7 @@ import {
   collection,
   doc,
   getDocs,
+  orderBy,
   query,
   where,
   writeBatch,
@@ -35,12 +36,15 @@ export class UserSpinRepository {
 
   async getsAsync(): Promise<IUserSpin[]> {
     const userSpins: IUserSpin[] = [];
+    const queryConstraints = [];
+    queryConstraints.push(orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(
-      collection(db, ECollectionFirebase.USER_SPIN)
+      query(collection(db, ECollectionFirebase.USER_SPIN), ...queryConstraints)
     );
     querySnapshot.forEach((doc) => {
       userSpins.push({ ...doc.data(), id: doc.id });
     });
+
     return userSpins;
   }
 

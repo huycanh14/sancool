@@ -195,6 +195,13 @@ const AdminUserSpinPage = () => {
           .includes(data.phone!.trim().toLocaleLowerCase())
       );
     }
+    if (!!data.channel) {
+      core = core.filter(
+        (x) =>
+          x.channel?.trim().toLocaleLowerCase() ===
+          data.channel!.trim().toLocaleLowerCase()
+      );
+    }
     if (!!data.startAt) {
       core = core.filter((x) =>
         dayjs(x.createdAt + "", "YYYY-MM-DD").isSameOrAfter(
@@ -296,7 +303,7 @@ const AdminUserSpinPage = () => {
                       <TableCell align="right">
                         {format(
                           new Date(row.createdAt + ""),
-                          "dd/MM/yyyy, hh:mm:ss"
+                          "dd/MM/yyyy, HH:mm:ss"
                         )}
                       </TableCell>
                       <TableCell align="right">
