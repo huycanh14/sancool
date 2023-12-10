@@ -46,8 +46,8 @@ const AdminUserSpinPage = () => {
   const userSpinCores = useAppSelector((state) => state.userSpin.userSpins);
   const dispatchTookit = useAppDispatch();
 
-  const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof IUserSpin>("id");
+  const [order, setOrder] = useState<Order>("desc");
+  const [orderBy, setOrderBy] = useState<keyof IUserSpin>("createdAt");
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);

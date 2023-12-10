@@ -1,6 +1,7 @@
 import { db } from "@/common/firebase";
 import { ECollectionFirebase } from "@/enum/ECollectionFirebase";
 import { IUserSpin } from "@/models/user-spin";
+import dayjs from "dayjs";
 import {
   addDoc,
   collection,
@@ -11,6 +12,7 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
+import _ from "lodash";
 
 export class UserSpinRepository {
   async create(payload: IUserSpin): Promise<string> {
@@ -42,10 +44,19 @@ export class UserSpinRepository {
       query(collection(db, ECollectionFirebase.USER_SPIN), ...queryConstraints)
     );
     querySnapshot.forEach((doc) => {
-      userSpins.push({ ...doc.data(), id: doc.id });
+      const data: IUserSpin = {
+        ...doc.data(),
+        id: doc.id,
+      };
+      data.createdAt = dayjs(
+        (data.createdAt! + "").split(" ").slice(1).join(" ")
+      ).toDate();
+      userSpins.push(data);
     });
-
-    return userSpins;
+    const data = _.sortBy(userSpins, function (dateObj) {
+      return new Date(dateObj.createdAt!);
+    });
+    return data;
   }
 
   async deleteMultipleAsync(ids: string[]): Promise<boolean> {

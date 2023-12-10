@@ -11,6 +11,11 @@ export const store = configureStore({
     segment: segmentReducer,
     config: configReducer,
   },
+  // middleware: getDefaultMiddleware({
+  //   serializableCheck: false,
+  // }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
