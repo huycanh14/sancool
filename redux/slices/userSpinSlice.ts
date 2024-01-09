@@ -24,11 +24,12 @@ export const createUserSpin = createAsyncThunk(
   async (limit: number, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
     const userSpin = state.userSpin.userSpin;
-    const cnt = await userSpinRepository.findCountSpin(userSpin);
-    if (cnt < limit) {
-      return await userSpinRepository.create(userSpin);
-    }
-    return "false";
+    // const cnt = await userSpinRepository.findCountSpin(userSpin);
+    // if (cnt < limit) {
+    //   return await userSpinRepository.create(userSpin);
+    // }
+    // return "false";
+    return await userSpinRepository.create(userSpin);
   }
 );
 

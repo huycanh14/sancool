@@ -21,7 +21,7 @@ const MessageFinishedForReal = (props: IProps) => {
     <>
       <Dialog
         open={!!props.isOpen}
-        onClose={() => props.onCancel && props.onCancel()}
+        // onClose={() => props.onCancel && props.onCancel()}
       >
         <Box sx={{ mx: 10, my: 2 }}>
           <img
@@ -42,12 +42,12 @@ const MessageFinishedForReal = (props: IProps) => {
         </Box>
         <Box sx={{ my: 2 }}>
           <DialogActions>
-            <Button
+            {/* <Button
               onClick={() => props.onCancel && props.onCancel()}
               variant="outlined"
             >
               Hủy
-            </Button>
+            </Button> */}
             <Button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white"
