@@ -251,12 +251,23 @@ const Wheel = (props: Props) => {
     const lenIds: string[] = [];
     let id = idDefault;
     if (!!isAccept) {
-      segments.forEach((element) => {
-        for (let i = 0; i < (element.occurrence || 0); i++)
-          lenIds.push(element.id || "");
-      });
-      lenIds.sort(() => Math.random() - 0.5);
-      id = lenIds[(Math.random() * lenIds.length) | 0];
+      while (true) {
+        segments.forEach((element) => {
+          for (let i = 0; i < (element.occurrence || 0); i++)
+            if ((element.occurrence ?? 0) >= 1) {
+              lenIds.push(element.id || "");
+            }
+        });
+        lenIds.sort(() => Math.random() - 0.5);
+        id = lenIds[(Math.random() * lenIds.length) | 0];
+        const check = segments.find(
+          (x) => x.occurrence && x.occurrence < 1 && (x.id || "") === id
+        );
+        if (!check) {
+          break;
+        }
+      }
+
       winningSegment.current = { id: id };
     } else {
       segments.forEach((element) => {
